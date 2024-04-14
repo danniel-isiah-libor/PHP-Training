@@ -21,6 +21,7 @@ class ProcessRegister
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $registerClass = new RegisterClass;
+            //
         }
     }
 }
