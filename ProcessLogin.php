@@ -5,6 +5,8 @@ use services\LoginClass;
 
 class ProcessLogin
 {
+    public $error;
+
     public function __construct()
     {
         session_start();
@@ -23,11 +25,14 @@ class ProcessLogin
 
             $loginClass = new LoginClass($email, $password);
 
-            $loginClass->authenticate();
-            // $loginClass->getUser();
+            $isAuth = $loginClass->authenticate();
 
-            header("location:dashboard.php");
-            exit;
+            if ($isAuth) {
+                header("location:dashboard.php");
+                exit;
+            } else {
+                $this->error = "Invalid credentials!";
+            }
         }
     }
 }
