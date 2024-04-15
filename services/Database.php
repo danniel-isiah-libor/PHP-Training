@@ -176,6 +176,21 @@ class Database
         return true;
     }
 
+    public function getUserProfile($id)
+    {
+        $table = $this->table;
+
+        $query = "SELECT * FROM $table WHERE user_id = $id LIMIT 1";
+
+        $result = $this->mysql->query($query);
+
+        if ($result->num_rows > 0) {
+            return $result->fetch_assoc();
+        } else {
+            return [];
+        }
+    }
+
     public function __destruct()
     {
         $this->mysql->close();

@@ -15,7 +15,12 @@
     <div class="container text-center">
         <div class="row justify-content-center">
             <div class="col-6">
-                <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" class="form-control">
+                <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" class="form-control" enctype="multipart/form-data">
+                    <input type="file" name="avatar" class="form-control">
+                    <p>
+                        <?php echo $processRegister->errors["avatar"] ?? ""; ?>
+                    </p>
+
                     Name: <input class="form-control" type="text" name="name" class="form-control">
 
                     <p class="text-danger">

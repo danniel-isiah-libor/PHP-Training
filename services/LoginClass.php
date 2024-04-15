@@ -34,9 +34,14 @@ class LoginClass extends FormAbstractClass
             $emailResult == $this->email &&
             password_verify($this->password, $passwordResult)
         ) {
+            $db = new Database([], "user_profiles");
+
+            $userProfile = $db->getUserProfile($userId);
+
             $_SESSION["isAuth"] = true;
             $_SESSION["userId"] = $userId;
             $_SESSION["email"] = $emailResult;
+            $_SESSION["avatar"] = $userProfile["avatar"] ?? "";
 
             return true;
         } else {

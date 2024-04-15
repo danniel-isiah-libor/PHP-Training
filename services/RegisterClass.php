@@ -11,6 +11,7 @@ use services\Database;
 class RegisterClass extends FormAbstractClass implements RegisterClassInterface
 {
     public function save(
+        $path,
         $name,
         $email,
         $password
@@ -36,11 +37,12 @@ class RegisterClass extends FormAbstractClass implements RegisterClassInterface
 
             if (count($userRecord) < 1) return false;
 
-            $db = new Database(["user_id", "name"], "user_profiles");
+            $db = new Database(["user_id", "name", "avatar"], "user_profiles");
 
             return $db->store([
                 $userRecord["id"],
-                $name
+                $name,
+                $path
             ]);
         } else {
             return false;

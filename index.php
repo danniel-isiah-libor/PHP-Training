@@ -12,7 +12,13 @@
     $dashboard->process();
     ?>
 
-    <?php include_once "navigation.php"; ?>
+    <?php
+    include_once "navigation.php";
+
+    $avatar = $_SESSION["avatar"];
+    ?>
+
+    <img src="<?php echo $avatar; ?>" style="width: 100px">
 
     <h1>WELCOME TO DASHBOARD</h1>
 
