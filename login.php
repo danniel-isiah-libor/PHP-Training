@@ -28,6 +28,8 @@
 
                     <button type="submit" class="btn btn-primary">Login</button>
                 </form>
+
+                No account yet? <a href="register.php">Register here</a>
             </div>
         </div>
     </div>

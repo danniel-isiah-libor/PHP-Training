@@ -47,6 +47,8 @@
 
                     <button type="submit" class="btn btn-primary">Register</button>
                 </form>
+
+                Already have an account? <a href="login.php">Login here</a>
             </div>
         </div>
     </div>
