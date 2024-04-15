@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<?php include_once "layout.php"; ?>
 
 <body>
     <?php
@@ -18,6 +14,20 @@
     ?>
 
     <h1>WELCOME TO DASHBOARD</h1>
+
+    <form action="UploadFile.php" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+
+        <button type="submit">Upload File</button>
+    </form>
+
+    <form action="FileHandle.php" method="get">
+        <button type="submit" class="btn btn-secondary">Read File</button>
+    </form>
+
+    <form action="ProcessLogout.php" method="get">
+        <button type="submit" class="btn btn-primary">Logout</button>
+    </form>
 </body>
 
 </html>

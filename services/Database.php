@@ -2,22 +2,104 @@
 
 namespace services;
 
+use mysqli;
+
 class Database
 {
-    const DB_NAME = "mydb";
+    const DB_SERVER = "localhost";
+    const DB_USER = "root";
+    const DB_PASSWORD = "";
+    const DB_NAME = "blog";
 
-    public function __construct()
+    public $mysql, $columns, $table;
+
+    public function __construct($columns = [], $table = "")
     {
-        echo "<br> Welcome to Database Class <br>";
+        $this->columns = $columns;
+        $this->table = $table;
+
+        $this->mysql = new mysqli(
+            self::DB_SERVER,
+            self::DB_USER,
+            self::DB_PASSWORD,
+            self::DB_NAME
+        );
+
+        if ($this->mysql->connect_error) {
+            die("Connection failed: " . $this->mysql->connect_error);
+        }
     }
 
-    public function store()
+    public function store($form)
     {
-        echo self::DB_NAME . "<br>";
+        $createdAt = date("y-m-d h:m:s");
+        $updatedAt = date("y-m-d h:m:s");
+
+        // $query = "
+        // INSERT INTO users (email, password, created_at, updated_at)
+        // VALUES ('$email', '$password', '$createdAt', '$updatedAt')
+        // ";
+
+        $table = $this->table;
+
+        $query = "INSERT INTO $table (";
+
+        for ($i = 0; $i < count($this->columns); $i++) {
+            $query .= $this->columns[$i] . ",";
+        }
+
+        $query .= "created_at, updated_at) VALUES (";
+
+        for ($i = 0; $i < count($form); $i++) {
+            if (count($form) - 1 == $i) {
+                $query .= "'$form[$i]'";
+            } else {
+                $query .= "'$form[$i]', ";
+            }
+        }
+
+        $query .= ", '$createdAt', '$updatedAt')";
+
+        if (!$this->mysql->query($query)) {
+            die("Data saved unsuccessfully!");
+        }
+
+        return true;
+    }
+
+    public function getRecord($email)
+    {
+        $table = $this->table;
+
+        $query = "SELECT * FROM $table WHERE email = '$email' LIMIT 1";
+
+        $result = $this->mysql->query($query);
+
+        if ($result->num_rows > 0) {
+            return $result->fetch_assoc();
+        } else {
+            return [];
+        }
+
+        // foreach ($result->fetch_assoc() as $row) {
+        //     var_dump($row);
+        //     echo "<br>";
+        // }
+
+        // echo "<br>";
+
+        // var_dump($result->num_rows);
+
+        // echo "<br>";
+
+        // while ($row = $result->fetch_assoc()) {
+        //     // var_dump($row);
+        //     echo $row["email"];
+        // }
     }
 
     public function __destruct()
     {
-        echo "<br> Goodbye from Database Class <br>";
+        $this->mysql->close();
     }
 }

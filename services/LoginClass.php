@@ -3,6 +3,9 @@
 namespace services;
 
 include "services/FormAbstractClass.php";
+include "services/Database.php";
+
+use services\Database;
 
 class LoginClass extends FormAbstractClass
 {
@@ -19,10 +22,23 @@ class LoginClass extends FormAbstractClass
 
     public function authenticate()
     {
-        $this->email;
-        $this->password;
+        $db = new Database([], "users");
 
-        $_SESSION["isAuth"] = true;
+        $result = $db->getRecord($this->email);
+
+        $emailResult = $result["email"] ?? "";
+        $passwordResult = $result["password"] ?? "";
+
+        if (
+            $emailResult == $this->email &&
+            password_verify($this->password, $passwordResult)
+        ) {
+            $_SESSION["isAuth"] = true;
+
+            return true;
+        } else {
+            return false;
+        }
     }
 
     // public static function getUser()

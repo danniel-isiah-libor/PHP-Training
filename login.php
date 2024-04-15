@@ -1,19 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
+<?php include_once "layout.php"; ?>
 
 <body>
     <?php
     require_once "ProcessLogin.php";
 
-    (new ProcessLogin)->process();
+    $processLogin = new ProcessLogin;
+
+    $processLogin->process();
     ?>
 
     <div class="container text-center">
@@ -21,9 +17,15 @@
             <div class="col-6">
                 <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" class="form-control">
                     Email: <input type="email" name="emailAddress" class="form-control">
+                    <p class="text-danger">
+                        <?php echo $processLogin->error; ?>
+                    </p>
                     <br>
+
                     Password: <input type="password" name="password" class="form-control">
+
                     <br>
+
                     <button type="submit" class="btn btn-primary">Login</button>
                 </form>
             </div>
