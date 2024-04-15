@@ -29,7 +29,7 @@
                     <button type="submit" class="btn btn-primary">Login</button>
                 </form>
 
-                No account yet? <a href="register.php">Register here</a>
+                No account yet? <a href="http://sample.test/register.php">Register here</a>
             </div>
         </div>
     </div>

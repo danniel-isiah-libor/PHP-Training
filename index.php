@@ -5,12 +5,11 @@
 
 <body>
     <?php
-    session_start();
+    include "ProcessDashboard.php";
 
-    if (!isset($_SESSION["isAuth"]) && !$_SESSION["isAuth"]) {
-        header("location:login.php");
-        exit;
-    }
+    $dashboard = new ProcessDashboard;
+
+    $dashboard->process();
     ?>
 
     <?php include_once "navigation.php"; ?>
@@ -19,39 +18,45 @@
 
     <br>
 
-    <div class="form-control">
-        <a href="view-post.php">
-            <h2>Post Title</h2>
-        </a>
+    <?php
+    if (count($dashboard->records) < 1) echo "no records found!";
 
-        <i>
-            <small>Posted by: Danniel Libor</small>
-        </i>
-    </div>
+    foreach ($dashboard->records as $record) {
+        $title = $record['title'];
+        $email = $record["email"];
+        $id = $record["id"];
 
-    <br>
+        echo "
+        <div class='form-control'>
+            <a href='http://sample.test/view-post.php/?id=$id'>
+                <h2>$title</h2>
+            </a>
 
-    <div class="form-control">
-        <a href="view-post.php">
-            <h2>Post Title</h2>
-        </a>
+            <i>
+                <small>Posted by: $email</small>
+            </i>
+        </div>
 
-        <i>
-            <small>Posted by: Danniel Libor</small>
-        </i>
-    </div>
+        <br>
+        ";
+    }
 
-    <br>
+    // while ($row = $dashboard->records) {
+    //     echo "
+    //     <div class='form-control'>
+    //         <a href='view-post.php'>
+    //             <h2>Post Title</h2>
+    //         </a>
 
-    <div class="form-control">
-        <a href="view-post.php">
-            <h2>Post Title</h2>
-        </a>
+    //         <i>
+    //             <small>Posted by: Danniel Libor</small>
+    //         </i>
+    //     </div>
 
-        <i>
-            <small>Posted by: Danniel Libor</small>
-        </i>
-    </div>
+    //     <br>
+    //     ";
+    // }
+    ?>
 
     <!-- <form action="UploadFile.php" method="post" enctype="multipart/form-data">
         <input type="file" name="file">

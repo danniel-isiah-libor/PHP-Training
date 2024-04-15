@@ -98,6 +98,84 @@ class Database
         // }
     }
 
+    public function getRecords()
+    {
+        $table = $this->table;
+
+        $query = "
+            SELECT posts.id, posts.title, posts.body, users.email FROM $table 
+            LEFT JOIN users ON posts.user_id = users.id
+            ORDER BY posts.updated_at DESC
+        ";
+
+        $result = $this->mysql->query($query);
+
+        if ($result->num_rows > 0) {
+            $records = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $records[] = $row;
+                // array_push($records, $row);
+            }
+
+            return $records;
+        } else {
+            return [];
+        }
+    }
+
+    public function show($id)
+    {
+        $table = $this->table;
+
+        $query = "
+            SELECT 
+                posts.id,
+                posts.user_id,
+                posts.title,
+                posts.body,
+                posts.updated_at,
+                users.email 
+            FROM $table
+            LEFT JOIN users ON posts.user_id = users.id
+            WHERE posts.id = $id LIMIT 1
+        ";
+
+        $result = $this->mysql->query($query);
+
+        if ($result->num_rows > 0) {
+            return $result->fetch_assoc();
+        } else {
+            return [];
+        }
+    }
+
+    public function delete($id)
+    {
+        $table = $this->table;
+
+        $query = "DELETE FROM $table WHERE id = $id";
+
+        $result = $this->mysql->query($query);
+
+        var_dump($result);
+    }
+
+    public function update($title, $body, $id)
+    {
+        $table = $this->table;
+
+        $updatedAt = date("y-m-d h:m:s");
+
+        $query = "UPDATE $table SET title='$title', body='$body', updated_at='$updatedAt' WHERE id = $id";
+
+        if (!$this->mysql->query($query)) {
+            die("Data saved unsuccessfully!");
+        }
+
+        return true;
+    }
+
     public function __destruct()
     {
         $this->mysql->close();
